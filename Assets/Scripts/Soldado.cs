@@ -10,6 +10,8 @@ public class Soldado : MonoBehaviour
     public int indice;
     public GameObject Destino;
     public bool EncontreiInimigo = false;
+    public Atirar MinhaArma;
+    public int vida = 10;
 
     public enum Estados { Ronda, Perseguir, Atacar};
     public Estados MeuEstado;
@@ -34,11 +36,21 @@ public class Soldado : MonoBehaviour
         {
             Perseguicao();
         }
+       if(MeuEstado == Estados.Atacar)
+        {
+            Ataque();
+        }
+
+       if(vida < 0)
+        {
+            Destroy(this.gameObject);
+        }
 
     }
 
     void Patrulha()
     {
+        agente.speed = 7;
         if (EncontreiInimigo == false)
         {
             agente.SetDestination(Destino.transform.position);
@@ -58,19 +70,58 @@ public class Soldado : MonoBehaviour
 
     void Perseguicao()
     {
-        if (EncontreiInimigo == true)
+        //Inimigo Ta vivo ?
+        if (Destino != null)
         {
-            agente.SetDestination(Destino.transform.position);
+            agente.speed = 7;
+            if (EncontreiInimigo == true)
+            {
+                agente.SetDestination(Destino.transform.position);
+                float distancia = Vector3.Distance(transform.position,
+                    Destino.transform.position);
+                if (distancia < 20)
+                {
+                    MeuEstado = Estados.Atacar;
+                }
+            }
+            else
+            {
+                MeuEstado = Estados.Ronda;
+            }
         }
         else
         {
+            Sorte();
+            Destino = ListaLocais[indice];
             MeuEstado = Estados.Ronda;
         }
     }
 
     void Ataque()
     {
-
+        //Inimigo Ta vivo ?
+        if(Destino != null)
+        {
+            agente.SetDestination(Destino.transform.position);
+            MinhaArma.Atirando();
+            float distancia = Vector3.Distance(transform.position,
+                    Destino.transform.position);
+            if (distancia < 5)
+            {
+                agente.speed = 0;
+            }
+            else
+            {
+                agente.speed = 7;
+            }
+        }
+        else
+        {
+            Sorte();
+            Destino = ListaLocais[indice];
+            MeuEstado = Estados.Ronda;
+        }
+        
     }
 
 

@@ -17,7 +17,7 @@ public class Atirar : MonoBehaviour
         
     }
 
-    void Atirando()
+    public void Atirando()
     {
         RaycastHit hit;
 
@@ -28,6 +28,7 @@ public class Atirar : MonoBehaviour
             if (hit.collider.gameObject.tag == "Inimigo")
             {
                 Debug.Log("Acertei O Inimigo");
+                hit.collider.gameObject.GetComponent<Soldado>().vida--;
                 Debug.DrawLine(transform.position, miraDaArma, Color.blue);
             }
 
