@@ -12,6 +12,7 @@ public class Soldado : MonoBehaviour
     public bool EncontreiInimigo = false;
     public Atirar MinhaArma;
     public int vida = 10;
+    public Animator MeuSoldadoAnimado;
 
     public enum Estados { Ronda, Perseguir, Atacar};
     public Estados MeuEstado;
@@ -50,7 +51,9 @@ public class Soldado : MonoBehaviour
 
     void Patrulha()
     {
-        agente.speed = 7;
+        agente.speed = 5;
+        MeuSoldadoAnimado.SetBool("Andando", true);
+        MeuSoldadoAnimado.SetBool("Atirando", false);
         if (EncontreiInimigo == false)
         {
             agente.SetDestination(Destino.transform.position);
@@ -73,6 +76,8 @@ public class Soldado : MonoBehaviour
         //Inimigo Ta vivo ?
         if (Destino != null)
         {
+            MeuSoldadoAnimado.SetBool("Andando", true);
+            MeuSoldadoAnimado.SetBool("Atirando", false);
             agente.speed = 7;
             if (EncontreiInimigo == true)
             {
@@ -94,6 +99,7 @@ public class Soldado : MonoBehaviour
             Sorte();
             Destino = ListaLocais[indice];
             MeuEstado = Estados.Ronda;
+            EncontreiInimigo = false;
         }
     }
 
@@ -108,10 +114,21 @@ public class Soldado : MonoBehaviour
                     Destino.transform.position);
             if (distancia < 5)
             {
+                MeuSoldadoAnimado.SetBool("Andando", false);
+                MeuSoldadoAnimado.SetBool("Atirando", true);
                 agente.speed = 0;
+                //Curta Distancia
+                Vector3 PosCorrigida = new Vector3(
+                    Destino.transform.position.x,
+                    transform.position.y,
+                    Destino.transform.position.z);
+                transform.LookAt(PosCorrigida);
+
             }
             else
             {
+                MeuSoldadoAnimado.SetBool("Andando", true);
+                MeuSoldadoAnimado.SetBool("Atirando", true);
                 agente.speed = 7;
             }
         }
@@ -120,6 +137,7 @@ public class Soldado : MonoBehaviour
             Sorte();
             Destino = ListaLocais[indice];
             MeuEstado = Estados.Ronda;
+            EncontreiInimigo = false;
         }
         
     }
