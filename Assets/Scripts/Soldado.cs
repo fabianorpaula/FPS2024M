@@ -11,6 +11,9 @@ public class Soldado : MonoBehaviour
     public GameObject Destino;
     public bool EncontreiInimigo = false;
 
+    public enum Estados { Ronda, Perseguir, Atacar};
+    public Estados MeuEstado;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +25,21 @@ public class Soldado : MonoBehaviour
    
     void Update()
     {
-        if(EncontreiInimigo == false)
+       
+        if(MeuEstado == Estados.Ronda)
+        {
+            Patrulha();
+        }
+       if(MeuEstado == Estados.Perseguir)
+        {
+            Perseguicao();
+        }
+
+    }
+
+    void Patrulha()
+    {
+        if (EncontreiInimigo == false)
         {
             agente.SetDestination(Destino.transform.position);
             float Distancia = Vector3.Distance(transform.position,
@@ -33,13 +50,29 @@ public class Soldado : MonoBehaviour
                 Destino = ListaLocais[indice];
             }
         }
-        if(EncontreiInimigo == true)
+        else
+        {
+            MeuEstado = Estados.Perseguir;
+        }
+    }
+
+    void Perseguicao()
+    {
+        if (EncontreiInimigo == true)
         {
             agente.SetDestination(Destino.transform.position);
         }
-       
+        else
+        {
+            MeuEstado = Estados.Ronda;
+        }
+    }
+
+    void Ataque()
+    {
 
     }
+
 
     void Sorte()
     {
