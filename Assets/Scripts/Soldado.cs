@@ -109,7 +109,7 @@ public class Soldado : MonoBehaviour
         if(Destino != null)
         {
             agente.SetDestination(Destino.transform.position);
-            MinhaArma.Atirando();
+            
             float distancia = Vector3.Distance(transform.position,
                     Destino.transform.position);
             if (distancia < 5)
@@ -140,6 +140,13 @@ public class Soldado : MonoBehaviour
             EncontreiInimigo = false;
         }
         
+    }
+
+
+    public void 
+    AnimacaoChamaTiro()
+    {
+        MinhaArma.Atirando();
     }
 
 
