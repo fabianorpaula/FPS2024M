@@ -5,6 +5,7 @@ using UnityEngine;
 public class Atirar : MonoBehaviour
 {
     public Soldado Sd;
+    public float DistanciaTiro;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +23,8 @@ public class Atirar : MonoBehaviour
         RaycastHit hit;
 
         Vector3 miraDaArma = transform.TransformDirection(
-            Vector3.forward) * 20;
-        if (Physics.Raycast(transform.position, miraDaArma, out hit, 20))
+            Vector3.forward) * (20+DistanciaTiro);
+        if (Physics.Raycast(transform.position, miraDaArma, out hit, 20+DistanciaTiro))
         {
             if (hit.collider.gameObject.tag == "Inimigo")
             {

@@ -14,12 +14,16 @@ public class Soldado : MonoBehaviour
     public int vida = 10;
     public Animator MeuSoldadoAnimado;
 
+    public int vidaExtra;
+    public int velExtra;
+
     public enum Estados { Ronda, Perseguir, Atacar};
     public Estados MeuEstado;
 
     // Start is called before the first frame update
     void Start()
     {
+        vida = vida + vidaExtra;
         agente = GetComponent<NavMeshAgent>();
         Sorte();
         Destino = ListaLocais[indice];
@@ -51,7 +55,7 @@ public class Soldado : MonoBehaviour
 
     void Patrulha()
     {
-        agente.speed = 5;
+        agente.speed = 5+velExtra;
         MeuSoldadoAnimado.SetBool("Andando", true);
         MeuSoldadoAnimado.SetBool("Atirando", false);
         if (EncontreiInimigo == false)
@@ -78,7 +82,7 @@ public class Soldado : MonoBehaviour
         {
             MeuSoldadoAnimado.SetBool("Andando", true);
             MeuSoldadoAnimado.SetBool("Atirando", false);
-            agente.speed = 7;
+            agente.speed = 7+velExtra;
             if (EncontreiInimigo == true)
             {
                 agente.SetDestination(Destino.transform.position);
@@ -129,7 +133,7 @@ public class Soldado : MonoBehaviour
             {
                 MeuSoldadoAnimado.SetBool("Andando", true);
                 MeuSoldadoAnimado.SetBool("Atirando", true);
-                agente.speed = 7;
+                agente.speed = 7 + velExtra;
             }
         }
         else

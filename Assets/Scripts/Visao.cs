@@ -5,6 +5,7 @@ using UnityEngine;
 public class Visao : MonoBehaviour
 {
     public Soldado Sd;
+    public float DistanciaVisao;
     void Start()
     {
         
@@ -17,8 +18,8 @@ public class Visao : MonoBehaviour
         RaycastHit hit;
 
         Vector3 olharprafrente = transform.TransformDirection(
-            Vector3.forward) * 40;
-        if(Physics.Raycast(transform.position, olharprafrente, out hit, 40))
+            Vector3.forward) * (40+ DistanciaVisao);
+        if(Physics.Raycast(transform.position, olharprafrente, out hit, 40+DistanciaVisao))
         {
             if (hit.collider.gameObject.tag == "Inimigo")
             {
